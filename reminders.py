@@ -55,22 +55,21 @@ def add_reminder():
     return redirect(url_for('view_reminders'))
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
     error = None
-    if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
-            error = 'Invalid username'
-        elif request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid password'
-        else:
-            session['logged_in'] = True
-            flash('You were logged in')
-            return redirect(url_for('view_reminders'))
-    return render_template('login.html', error=error)
+    if request.form['username'] != app.config['USERNAME']:
+        error = 'Invalid username'
+    elif request.form['password'] != app.config['PASSWORD']:
+        error = 'Invalid password'
+    else:
+        session['logged_in'] = True
+        flash('You were logged in')
+        return redirect(url_for('view_reminders'))
+    return render_template('login.html', error=error) # TODO change so error renders on main page
 
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
