@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <form action="{{ url_for('add_reminder') }}" method=post class=add-entry>
+      <label for=name>Name:</label>
+      <input name=name type=text/>
+      <label for=time>Time:</label>
+      <input name=time type=text>
+      <input type=submit value=Create />
+    </form>
+  {% endif %}
+  <table>
+  {% for reminder in reminders %}
+    <tr>
+      <td>{{ reminder.name }}</td>
+      <td>{{ reminder.time }}</td>
+    </tr>
+  {% else %}
+    <tr><td>You have no reminders at the moment.</td></tr>
+  {% endfor %}
+  </table>
+{% endblock %}
